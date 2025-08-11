@@ -1,6 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const { router } = require("./routes/users");
+const router = require("express").Router();
+const { usersRouter } = require("./routes/users");
+const { clothingItemsRouter } = require("./routes/clothingItems");
 
 const app = express();
 
@@ -12,7 +14,8 @@ mongoose
 // perhaps i wont need this if school doesnt mention it?
 app.use(express.json());
 
-app.use("/", router);
+app.use("/", usersRouter);
+app.use("/", clothingItemsRouter);
 
 const { PORT = 3001 } = process.env;
 
