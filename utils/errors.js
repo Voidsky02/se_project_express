@@ -1,10 +1,14 @@
-// perhaps i should use new Error() class creator in future
-const error400 = { code: 400, message: "Invalid data passed to request" };
-const error404 = {
-  code: 404,
-  message: "Requested resource could not be found",
-};
-const error500 = { code: 500, message: "An error has occurred on the server." };
+const error400 = new Error("Invalid data passed to request");
+error400.name = "ValidationError";
+error400.code = 400;
+
+const error404 = new Error("Requested resource could not be found");
+error404.name = "DocumentNotFoundError";
+error404.code = 404;
+
+const error500 = new Error("An error has occurred on the server");
+error500.name = "ServerError";
+error500.code = 500;
 
 // function passed to every requests .catch() block
 const serverErrorHandler = (req, res, error) => {
