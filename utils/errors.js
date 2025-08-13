@@ -11,11 +11,11 @@ const serverErrorHandler = (req, res, error) => {
   console.error(error);
   if (error.name === "ValidationError" || error.name === "CastError") {
     return res.status(error400.code).send({ message: error400.message });
-  } else if (error.name === "DocumentNotFoundError") {
-    return res.status(error404.code).send({ message: error404.message });
-  } else {
-    return res.status(error500.code).send({ message: error500.message });
   }
+  if (error.name === "DocumentNotFoundError") {
+    return res.status(error404.code).send({ message: error404.message });
+  }
+  return res.status(error500.code).send({ message: error500.message });
 };
 
 // this error message never gets used because when serverErrorHandler, which gets used

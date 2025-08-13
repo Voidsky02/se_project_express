@@ -1,4 +1,4 @@
-const { ClothingItem } = require("../models/clothingItems.js");
+const { ClothingItem } = require("../models/clothingItems");
 const { serverErrorHandler, orFailErrorHandler } = require("../utils/errors");
 
 module.exports.getClothingItems = (req, res) => {
@@ -19,8 +19,6 @@ module.exports.deleteClothingItem = (req, res) => {
   const { itemId } = req.params;
   ClothingItem.findByIdAndDelete(itemId)
     .orFail(orFailErrorHandler)
-    .then((clothingItem) => {
-      return res.status(200).send(clothingItem);
-    })
+    .then((clothingItem) => res.status(200).send(clothingItem))
     .catch((err) => serverErrorHandler(req, res, err));
 };

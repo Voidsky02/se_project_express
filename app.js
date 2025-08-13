@@ -23,9 +23,9 @@ app.use((req, res, next) => {
 app.use("/", usersRouter);
 app.use("/", clothingItemsRouter);
 app.use("/", likesRouter);
-app.use((req, res) => {
-  return res.status(404).send({ message: "Requested resource not found" });
-});
+app.use((req, res) =>
+  res.status(404).send({ message: "Requested resource not found" })
+);
 
 const { PORT = 3001 } = process.env;
 
