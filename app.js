@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const { usersRouter } = require("./routes/users");
 const { clothingItemsRouter } = require("./routes/clothingItems");
 const { likesRouter } = require("./routes/likes");
+const { error404 } = require("./utils/errors");
 
 const app = express();
 
@@ -24,7 +25,7 @@ app.use("/", usersRouter);
 app.use("/", clothingItemsRouter);
 app.use("/", likesRouter);
 app.use((req, res) =>
-  res.status(404).send({ message: "Requested resource not found" })
+  res.status(error404.code).send({ message: error404.message })
 );
 
 const { PORT = 3001 } = process.env;
