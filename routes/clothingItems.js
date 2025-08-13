@@ -5,10 +5,10 @@ const {
   deleteClothingItem,
 } = require("../controllers/clothingItems");
 
-clothingItemsRouter.get("/items", getItems);
+clothingItemsRouter.get("/items", getClothingItems);
 
-clothingItemsRouter.post("/items", createItem);
+clothingItemsRouter.post("/items", createClothingItem);
 
-clothingItemsRouter.delete("/items/:itemId", deleteItem);
+clothingItemsRouter.delete("/items/:itemId", deleteClothingItem);
 
 module.exports = { clothingItemsRouter };
