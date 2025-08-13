@@ -20,7 +20,7 @@ module.exports.deleteClothingItem = (req, res) => {
   ClothingItem.findByIdAndDelete(itemId)
     .orFail(orFailErrorHandler)
     .then((clothingItem) => {
-      return res.status(200).send(`Deletion successfull: ${clothingItem}`);
+      return res.status(200).send(clothingItem);
     })
     .catch((err) => serverErrorHandler(req, res, err));
 };

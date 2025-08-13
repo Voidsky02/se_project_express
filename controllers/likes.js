@@ -12,7 +12,7 @@ module.exports.likeItem = (req, res) => {
     { new: true }
   )
     .orFail(orFailErrorHandler)
-    .then((likes) => res.status(200).send(`Successfully liked item: ${likes}`))
+    .then((likes) => res.status(200).send(likes))
     .catch((err) => serverErrorHandler(req, res, err));
 };
 
@@ -23,8 +23,6 @@ module.exports.dislikeItem = (req, res) => {
     { new: true }
   )
     .orFail(orFailErrorHandler)
-    .then((likes) =>
-      res.status(200).send(`Successfully removed like from item: ${likes}`)
-    )
+    .then((likes) => res.status(200).send(likes))
     .catch((err) => serverErrorHandler(req, res, err));
 };
