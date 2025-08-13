@@ -1,11 +1,10 @@
 const { ClothingItem } = require("../models/clothingItems.js");
+const { serverErrorHandler, orFailErrorHandler } = require("../utils/errors");
 
 module.exports.getClothingItems = (req, res) => {
   ClothingItem.find({})
     .then((clothingItems) => res.status(200).send(clothingItems))
-    .catch((err) => {
-      return res.status(500).send(`Error: ${err}`);
-    });
+    .catch((err) => serverErrorHandler(req, res, err));
 };
 
 module.exports.createClothingItem = (req, res) => {
@@ -13,18 +12,15 @@ module.exports.createClothingItem = (req, res) => {
   const { name, weather, imageUrl } = req.body;
   ClothingItem.create({ name, weather, imageUrl, owner })
     .then((clothingItem) => res.status(200).send(clothingItem))
-    .catch((err) => {
-      return res.status(500).send(`Error: ${err}`);
-    });
+    .catch((err) => serverErrorHandler(req, res, err));
 };
 
 module.exports.deleteClothingItem = (req, res) => {
-  const itemId = req.params.itemId;
+  const { itemId } = req.params;
   ClothingItem.findByIdAndDelete(itemId)
+    .orFail(orFailErrorHandler)
     .then((clothingItem) => {
       return res.status(200).send(`Deletion successfull: ${clothingItem}`);
     })
-    .catch((err) => {
-      return res.status(500).send(`Error: ${err}`);
-    });
+    .catch((err) => serverErrorHandler(req, res, err));
 };
