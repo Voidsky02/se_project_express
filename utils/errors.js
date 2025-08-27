@@ -23,9 +23,7 @@ const serverErrorHandler = (req, res, error) => {
   if (error.name === "DocumentNotFoundError") {
     return res.status(error404.code).send({ message: error404.message });
   }
-  // when creating user w/ existing email, i get regular 500 error, not 409 error.
-  // message is "An error has occurred on the server"
-  if (error.name === "DuplicateKey") {
+  if (error.code === 11000) {
     return res.status(error409.code).send({ message: error409.message });
   }
   return res.status(error500.code).send({ message: error500.message });
