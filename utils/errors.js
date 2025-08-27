@@ -14,6 +14,10 @@ const error409 = new Error("A user with this email already exists");
 error409.name = "ConflictError";
 error409.code = 409;
 
+const error401 = new Error("Incorrect email or password");
+error401.name = "UnauthorizedError";
+erro401.code = 401;
+
 // function passed to every requests .catch() block
 const serverErrorHandler = (req, res, error) => {
   console.error(error);
@@ -26,6 +30,10 @@ const serverErrorHandler = (req, res, error) => {
   if (error.code === 11000) {
     return res.status(error409.code).send({ message: error409.message });
   }
+  if (error.message === "Incorrect email or password") {
+    return res.status(error401.code).send(error401.message);
+  }
+  // i need to add 401 error for if email and password are incorrect
   return res.status(error500.code).send({ message: error500.message });
 };
 
