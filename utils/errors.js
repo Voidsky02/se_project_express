@@ -10,6 +10,10 @@ const error500 = new Error("An error has occurred on the server");
 error500.name = "ServerError";
 error500.code = 500;
 
+const error409 = new Error("A user with this email already exists");
+error409.name = "ConflictError";
+error409.code = 409;
+
 // function passed to every requests .catch() block
 const serverErrorHandler = (req, res, error) => {
   console.error(error);
@@ -18,6 +22,9 @@ const serverErrorHandler = (req, res, error) => {
   }
   if (error.name === "DocumentNotFoundError") {
     return res.status(error404.code).send({ message: error404.message });
+  }
+  if (error.name === "DuplicateKey") {
+    return res.status(error409.code).send({ message: error409.message });
   }
   return res.status(error500.code).send({ message: error500.message });
 };
