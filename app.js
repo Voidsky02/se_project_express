@@ -21,12 +21,11 @@ app.use((req, res, next) => {
   };
   next();
 });
+// dont use auth middleware for any user routes
 app.use("/", usersRouter);
+// use auth middleware for ever route except getClothingItems
 app.use("/", clothingItemsRouter);
 app.use("/", likesRouter);
-// new routes:
-
-// end of new routes:
 app.use((req, res) =>
   res.status(error404.code).send({ message: error404.message })
 );
