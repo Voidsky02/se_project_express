@@ -12,15 +12,16 @@ const { serverErrorHandler, orFailErrorHandler } = require("../utils/errors");
 //     .catch((err) => serverErrorHandler(req, res, err));
 // };
 
-// delete since cant access other profiles now?
+// Altered
 //
-// module.exports.getUser = (req, res) => {
-//   const { userId } = req.params;
-//   User.findById(userId)
-//     .orFail(orFailErrorHandler)
-//     .then((user) => res.status(200).send(user))
-//     .catch((err) => serverErrorHandler(req, res, err));
-// };
+module.exports.getCurrentUser = (req, res) => {
+  const userId = req.user;
+  console.log(req.user);
+  User.findById(userId)
+    .orFail(orFailErrorHandler)
+    .then((user) => res.status(200).send(user))
+    .catch((err) => serverErrorHandler(req, res, err));
+};
 
 // update to read email and password - hash password before saving to database
 module.exports.createUser = (req, res) => {

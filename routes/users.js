@@ -4,6 +4,7 @@ const {
   createUser,
   getUser,
   login,
+  getCurrentUser,
 } = require("../controllers/users");
 
 // returns all users - DELETE (cant access other users with authorization)
@@ -21,5 +22,6 @@ const {
 // NEW ROUTES:
 usersRouter.post("/signin", login);
 usersRouter.post("/signup", createUser);
+usersRouter.get("/users/me", getCurrentUser);
 
 module.exports = { usersRouter };
