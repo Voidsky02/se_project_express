@@ -5,20 +5,22 @@ const { User } = require("../models/user");
 const { serverErrorHandler, orFailErrorHandler } = require("../utils/errors");
 
 // delete since cant access other profiles now?
-module.exports.getUsers = (req, res) => {
-  User.find({})
-    .then((users) => res.status(200).send(users))
-    .catch((err) => serverErrorHandler(req, res, err));
-};
+//
+// module.exports.getUsers = (req, res) => {
+//   User.find({})
+//     .then((users) => res.status(200).send(users))
+//     .catch((err) => serverErrorHandler(req, res, err));
+// };
 
 // delete since cant access other profiles now?
-module.exports.getUser = (req, res) => {
-  const { userId } = req.params;
-  User.findById(userId)
-    .orFail(orFailErrorHandler)
-    .then((user) => res.status(200).send(user))
-    .catch((err) => serverErrorHandler(req, res, err));
-};
+//
+// module.exports.getUser = (req, res) => {
+//   const { userId } = req.params;
+//   User.findById(userId)
+//     .orFail(orFailErrorHandler)
+//     .then((user) => res.status(200).send(user))
+//     .catch((err) => serverErrorHandler(req, res, err));
+// };
 
 // update to read email and password - hash password before saving to database
 module.exports.createUser = (req, res) => {

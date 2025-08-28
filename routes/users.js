@@ -7,13 +7,16 @@ const {
 } = require("../controllers/users");
 
 // returns all users - DELETE (cant access other users with authorization)
-usersRouter.get("/users", getUsers);
+//
+// usersRouter.get("/users", getUsers);
 
 // returns one user by Id - DELETE (Cant access other profiles)
-usersRouter.get("/users/:userId", getUser);
+//
+// usersRouter.get("/users/:userId", getUser);
 
 // creates a new user - DELETE (we are using /signup now)
-usersRouter.post("/users", createUser);
+//
+// usersRouter.post("/users", createUser);
 
 // NEW ROUTES:
 usersRouter.post("/signin", login);
