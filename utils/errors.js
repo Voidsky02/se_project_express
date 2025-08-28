@@ -16,7 +16,7 @@ error409.code = 409;
 
 const error401 = new Error("Incorrect email or password");
 error401.name = "UnauthorizedError";
-erro401.code = 401;
+error401.code = 401;
 
 // function passed to every requests .catch() block
 const serverErrorHandler = (req, res, error) => {

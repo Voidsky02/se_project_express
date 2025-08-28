@@ -1,14 +1,22 @@
 const usersRouter = require("express").Router();
-const { getUsers, createUser, getUser } = require("../controllers/users");
+const {
+  getUsers,
+  createUser,
+  getUser,
+  login,
+} = require("../controllers/users");
 
-// returns all users
+// returns all users - DELETE (cant access other users with authorization)
 usersRouter.get("/users", getUsers);
 
-// returns one user by Id
+// returns one user by Id - DELETE (Cant access other profiles)
 usersRouter.get("/users/:userId", getUser);
 
-// creates a new user
+// creates a new user - DELETE (we are using /signup now)
 usersRouter.post("/users", createUser);
 
-// might rename to be more specific
+// NEW ROUTES:
+usersRouter.post("/signin", login);
+usersRouter.post("/signup", createUser);
+
 module.exports = { usersRouter };

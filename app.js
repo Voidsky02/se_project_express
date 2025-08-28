@@ -24,6 +24,9 @@ app.use((req, res, next) => {
 app.use("/", usersRouter);
 app.use("/", clothingItemsRouter);
 app.use("/", likesRouter);
+// new routes:
+
+// end of new routes:
 app.use((req, res) =>
   res.status(error404.code).send({ message: error404.message })
 );
