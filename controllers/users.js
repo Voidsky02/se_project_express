@@ -23,6 +23,14 @@ module.exports.getCurrentUser = (req, res) => {
     .catch((err) => serverErrorHandler(req, res, err));
 };
 
+// update users Name and Avatar fields ONLY
+module.exports.updateProfile = (req, res) => {
+  const { name, avatar } = req.body;
+
+  // temp boiler plate, adjust tomorrow
+  User.findOneAndUpdate({}, { $set {name: "", avatar: ""} }, { new: true }, () => {});
+};
+
 // update to read email and password - hash password before saving to database
 module.exports.createUser = (req, res) => {
   const { name, avatar, email } = req.body;
