@@ -15,12 +15,6 @@ mongoose
 // perhaps i wont need this if school doesnt mention it?
 app.use(express.json());
 
-app.use((req, res, next) => {
-  req.user = {
-    _id: "68995d729ccd16b14822bf18",
-  };
-  next();
-});
 // dont use auth middleware for any user routes
 app.use("/", usersRouter);
 // use auth middleware for ever route except getClothingItems
