@@ -28,7 +28,13 @@ module.exports.updateProfile = (req, res) => {
   const { name, avatar } = req.body;
 
   // temp boiler plate, adjust tomorrow
-  User.findOneAndUpdate({}, { $set {name: "", avatar: ""} }, { new: true }, () => {});
+  User.findOneAndUpdate(
+    { _id: user._id },
+    { $set: { name, avatar } },
+    { new: true }
+  )
+    .then((user) => res.status(200).send(user))
+    .catch((err) => serverErrorHandler(req, res, err));
 };
 
 // update to read email and password - hash password before saving to database
