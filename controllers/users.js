@@ -32,7 +32,7 @@ module.exports.updateProfile = (req, res) => {
   User.findOneAndUpdate(
     { _id: req.user._id },
     { $set: { name, avatar } },
-    { new: true }
+    { new: true, runValidators: true }
   )
     .then((user) => res.status(200).send(user))
     .catch((err) => serverErrorHandler(req, res, err));
