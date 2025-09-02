@@ -17,15 +17,11 @@ const { serverErrorHandler, orFailErrorHandler } = require("../utils/errors");
 // req.user is undefined
 module.exports.getCurrentUser = (req, res) => {
   const userId = req.user;
-  // console.log(`This is: ${}`);
-  console.log(`This is req.user: ${req.user}`);
-  console.log(`This is req.authorization: ${req.authorization}`);
   User.findById(userId)
     .orFail(orFailErrorHandler)
     .then((user) => res.status(200).send(user))
     .catch((err) => {
       serverErrorHandler(req, res, err);
-      console.log("so this is running?");
     });
 };
 
@@ -33,10 +29,8 @@ module.exports.getCurrentUser = (req, res) => {
 module.exports.updateProfile = (req, res) => {
   const { name, avatar } = req.body;
 
-  // temp boiler plate, adjust tomorrow
   User.findOneAndUpdate(
-    // user is not defined***** req.authorization ?
-    { _id: req.user },
+    { _id: req.user._id },
     { $set: { name, avatar } },
     { new: true }
   )
@@ -44,7 +38,6 @@ module.exports.updateProfile = (req, res) => {
     .catch((err) => serverErrorHandler(req, res, err));
 };
 
-// update to read email and password - hash password before saving to database
 module.exports.createUser = (req, res) => {
   const { name, avatar, email } = req.body;
   bcrypt.hash(req.body.password, 10).then((hash) => {
@@ -58,7 +51,6 @@ module.exports.login = (req, res) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      // create token
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
         expiresIn: "7d",
       });
