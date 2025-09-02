@@ -42,7 +42,11 @@ module.exports.createUser = (req, res) => {
   const { name, avatar, email } = req.body;
   bcrypt.hash(req.body.password, 10).then((hash) => {
     User.create({ name, avatar, email, password: hash })
-      .then((user) => res.status(200).send(user))
+      .then((user) => {
+        const userObject = user.toJSON();
+        delete userObject.password;
+        res.status(200).send(userObject);
+      })
       .catch((err) => serverErrorHandler(req, res, err));
   });
 };

@@ -22,11 +22,7 @@ const auth = require("../middleware/auth");
 // NEW ROUTES:
 usersRouter.post("/signin", login);
 usersRouter.post("/signup", createUser);
-// I didnt add auth to this, so it never extracts the token from the user after logging in
-// I need to pass auth to every request that needs to verify user or use user object i think
 usersRouter.get("/users/me", auth, getCurrentUser);
-
-// need to take the payload, which carries the user id, and use that to find the user and update?
 usersRouter.patch("/users/me", auth, updateProfile);
 
 module.exports = { usersRouter };
