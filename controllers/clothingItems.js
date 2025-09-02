@@ -17,8 +17,12 @@ module.exports.createClothingItem = (req, res) => {
 
 module.exports.deleteClothingItem = (req, res) => {
   const { itemId } = req.params;
-  ClothingItem.findByIdAndDelete(itemId)
-    .orFail(orFailErrorHandler)
-    .then((clothingItem) => res.status(200).send(clothingItem))
-    .catch((err) => serverErrorHandler(req, res, err));
+  // check whether the items ownerId is equal to req.user
+  const userId = req.user._id;
+
+  if (userId !== itemId)
+    ClothingItem.findByIdAndDelete(itemId)
+      .orFail(orFailErrorHandler)
+      .then((clothingItem) => res.status(200).send(clothingItem))
+      .catch((err) => serverErrorHandler(req, res, err));
 };
