@@ -14,13 +14,19 @@ const { serverErrorHandler, orFailErrorHandler } = require("../utils/errors");
 
 // Altered
 //
+// req.user is undefined
 module.exports.getCurrentUser = (req, res) => {
   const userId = req.user;
-  console.log(req.user);
+  // console.log(`This is: ${}`);
+  console.log(`This is req.user: ${req.user}`);
+  console.log(`This is req.authorization: ${req.authorization}`);
   User.findById(userId)
     .orFail(orFailErrorHandler)
     .then((user) => res.status(200).send(user))
-    .catch((err) => serverErrorHandler(req, res, err));
+    .catch((err) => {
+      serverErrorHandler(req, res, err);
+      console.log("so this is running?");
+    });
 };
 
 // update users Name and Avatar fields ONLY
@@ -29,7 +35,8 @@ module.exports.updateProfile = (req, res) => {
 
   // temp boiler plate, adjust tomorrow
   User.findOneAndUpdate(
-    { _id: user._id },
+    // user is not defined***** req.authorization ?
+    { _id: req.user },
     { $set: { name, avatar } },
     { new: true }
   )

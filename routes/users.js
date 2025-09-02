@@ -1,12 +1,11 @@
 const usersRouter = require("express").Router();
 const {
-  getUsers,
   createUser,
-  getUser,
   login,
   getCurrentUser,
   updateProfile,
 } = require("../controllers/users");
+const auth = require("../middleware/auth");
 
 // returns all users - DELETE (cant access other users with authorization)
 //
@@ -23,7 +22,9 @@ const {
 // NEW ROUTES:
 usersRouter.post("/signin", login);
 usersRouter.post("/signup", createUser);
-usersRouter.get("/users/me", getCurrentUser);
+// I didnt add auth to this, so it never extracts the token from the user after logging in
+// I need to pass auth to every request that needs to verify user or use user object i think
+usersRouter.get("/users/me", auth, getCurrentUser);
 usersRouter.patch("/users/me", updateProfile);
 
 module.exports = { usersRouter };
