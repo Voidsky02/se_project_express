@@ -4,17 +4,6 @@ const { JWT_SECRET } = require("../utils/config");
 const { User } = require("../models/user");
 const { serverErrorHandler, orFailErrorHandler } = require("../utils/errors");
 
-// delete since cant access other profiles now?
-//
-// module.exports.getUsers = (req, res) => {
-//   User.find({})
-//     .then((users) => res.status(200).send(users))
-//     .catch((err) => serverErrorHandler(req, res, err));
-// };
-
-// Altered
-//
-// req.user is undefined
 module.exports.getCurrentUser = (req, res) => {
   const userId = req.user;
   User.findById(userId)
