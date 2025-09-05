@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 const { usersRouter } = require("./routes/users");
 const { clothingItemsRouter } = require("./routes/clothingItems");
 const { likesRouter } = require("./routes/likes");
@@ -14,6 +15,7 @@ mongoose
 
 // perhaps i wont need this if school doesnt mention it?
 app.use(express.json());
+app.use(cors());
 
 // dont use auth middleware for any user routes
 app.use("/", usersRouter);
