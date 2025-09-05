@@ -1,5 +1,5 @@
 const { ClothingItem } = require("../models/clothingItems");
-const { serverErrorHandler, orFailErrorHandler } = require("../utils/errors");
+const { serverErrorHandler } = require("../utils/errors");
 
 module.exports.getClothingItems = (req, res) => {
   ClothingItem.find({})
