@@ -15,14 +15,27 @@ module.exports.createClothingItem = (req, res) => {
     .catch((err) => serverErrorHandler(req, res, err));
 };
 
-module.exports.deleteClothingItem = (req, res) => {
+module.exports.deleteClothingItem = async (req, res) => {
   const { itemId } = req.params;
-  // check whether the items ownerId is equal to req.user
   const userId = req.user._id;
 
-  if (userId !== itemId)
-    ClothingItem.findByIdAndDelete(itemId)
-      .orFail(orFailErrorHandler)
-      .then((clothingItem) => res.status(200).send(clothingItem))
-      .catch((err) => serverErrorHandler(req, res, err));
+  let item;
+  let deletedItem;
+
+  try {
+    item = await ClothingItem.findById(itemId);
+
+    if (item === null) {
+      await Promise.reject({ name: "DocumentNotFoundError" });
+    }
+
+    if (item.owner.toString() === userId) {
+      deletedItem = await ClothingItem.findByIdAndDelete(itemId);
+      return res.status(200).send(deletedItem);
+    } else {
+      await Promise.reject({ name: "UnauthorizedError" });
+    }
+  } catch (error) {
+    return serverErrorHandler(req, res, error);
+  }
 };
