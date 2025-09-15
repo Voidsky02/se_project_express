@@ -51,8 +51,7 @@ userSchema.statics.findUserByCredentials = function findUserByCredentials(
         }
         return user;
       });
-    })
-    .catch((err) => serverErrorHandler(req, res, err));
+    });
 };
 
 const User = mongoose.model("user", userSchema);

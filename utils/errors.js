@@ -31,9 +31,9 @@ const serverErrorHandler = (req, res, error) => {
     return res.status(error409.code).send({ message: error409.message });
   }
   if (error.message === "Incorrect email or password") {
-    return res.status(error401.code).send(error401.message);
+    return res.status(error401.code).send({ message: error401.message });
   }
-  // i need to add 401 error for if email and password are incorrect
+
   return res.status(error500.code).send({ message: error500.message });
 };
 
