@@ -24,7 +24,6 @@ error403.code = 403;
 
 // function passed to every requests .catch() block
 const serverErrorHandler = (req, res, error) => {
-  console.error(error);
   if (error.name === "ValidationError" || error.name === "CastError") {
     return res.status(error400.code).send({ message: error400.message });
   }
