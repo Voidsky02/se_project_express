@@ -33,7 +33,7 @@ module.exports.deleteClothingItem = async (req, res) => {
       deletedItem = await ClothingItem.findByIdAndDelete(itemId);
       return res.status(200).send(deletedItem);
     } else {
-      await Promise.reject({ name: "UnauthorizedError" });
+      await Promise.reject({ name: "ForbiddenError" });
     }
   } catch (error) {
     return serverErrorHandler(req, res, error);

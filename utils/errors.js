@@ -18,6 +18,10 @@ const error401 = new Error("Incorrect email or password");
 error401.name = "UnauthorizedError";
 error401.code = 401;
 
+const error403 = new Error("Forbidden - Insufficient permissions");
+error403.name = "ForbiddenError";
+error403.code = 403;
+
 // function passed to every requests .catch() block
 const serverErrorHandler = (req, res, error) => {
   console.error(error);
@@ -30,8 +34,11 @@ const serverErrorHandler = (req, res, error) => {
   if (error.code === 11000) {
     return res.status(error409.code).send({ message: error409.message });
   }
-  if (error.message === "Incorrect email or password") {
+  if (error.name === "UnauthorizedError") {
     return res.status(error401.code).send({ message: error401.message });
+  }
+  if (error.name === "ForbiddenError") {
+    return res.status(error403.code).send({ message: error403.message });
   }
 
   return res.status(error500.code).send({ message: error500.message });
