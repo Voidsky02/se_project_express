@@ -5,7 +5,7 @@ const { User } = require("../models/user");
 const { serverErrorHandler, orFailErrorHandler } = require("../utils/errors");
 
 module.exports.getCurrentUser = (req, res) => {
-  const userId = req.user;
+  const userId = req.user._id;
   User.findById(userId)
     .orFail(orFailErrorHandler)
     .then((user) => res.status(200).send(user))
@@ -23,6 +23,7 @@ module.exports.updateProfile = (req, res) => {
     { $set: { name, avatar } },
     { new: true, runValidators: true }
   )
+    .orFail(orFailErrorHandler)
     .then((user) => res.status(200).send(user))
     .catch((err) => serverErrorHandler(req, res, err));
 };
