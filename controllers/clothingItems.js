@@ -26,6 +26,9 @@ module.exports.deleteClothingItem = async (req, res) => {
     item = await ClothingItem.findById(itemId);
 
     if (item === null) {
+      /* mabey pass the error itself ex. error401 or whatever,
+      then structure it to work with the error object itself to solve the lint error
+      of not a error object being the reason for a Promise.reject */
       await Promise.reject({ name: "DocumentNotFoundError" });
     }
 
