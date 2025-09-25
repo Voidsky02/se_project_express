@@ -53,4 +53,10 @@ const orFailErrorHandler = () => {
   throw error;
 };
 
-module.exports = { serverErrorHandler, orFailErrorHandler };
+module.exports = {
+  serverErrorHandler,
+  orFailErrorHandler,
+  error401,
+  error404,
+  error403,
+};
