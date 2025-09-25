@@ -1,5 +1,5 @@
 const { ClothingItem } = require("../models/clothingItems");
-const { serverErrorHandler } = require("../utils/errors");
+const { serverErrorHandler, error404, error403 } = require("../utils/errors");
 
 module.exports.getClothingItems = (req, res) => {
   ClothingItem.find({})
@@ -29,7 +29,7 @@ module.exports.deleteClothingItem = async (req, res) => {
       /* mabey pass the error itself ex. error401 or whatever,
       then structure it to work with the error object itself to solve the lint error
       of not a error object being the reason for a Promise.reject */
-      await Promise.reject({ name: "DocumentNotFoundError" });
+      await Promise.reject(error404);
     }
 
     if (item.owner.toString() === userId) {
@@ -37,7 +37,7 @@ module.exports.deleteClothingItem = async (req, res) => {
       return res.status(200).send(deletedItem);
     }
 
-    return await Promise.reject({ name: "ForbiddenError" });
+    return await Promise.reject(error403);
   } catch (error) {
     return serverErrorHandler(req, res, error);
   }
