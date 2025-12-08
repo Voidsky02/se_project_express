@@ -29,15 +29,21 @@ module.exports.updateProfile = (req, res) => {
 };
 
 module.exports.createUser = (req, res) => {
+  console.log(`create user called with:`, req.body);
   const { name, avatar, email } = req.body;
   bcrypt.hash(req.body.password, 10).then((hash) => {
-    User.create({ name, avatar, email, password: hash })
+    console.log("Password Hashed correctly");
+    return User.create({ name, avatar, email, password: hash })
       .then((user) => {
+        console.log(`User created successfully`);
         const userObject = user.toJSON();
         delete userObject.password;
         res.status(200).send(userObject);
       })
-      .catch((err) => serverErrorHandler(req, res, err));
+      .catch((err) => {
+        console.log(`Error in create user: ${err}`);
+        return serverErrorHandler(req, res, err);
+      });
   });
 };
 

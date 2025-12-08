@@ -4,7 +4,14 @@ const { serverErrorHandler, error404, error403 } = require("../utils/errors");
 module.exports.getClothingItems = (req, res) => {
   ClothingItem.find({})
     .then((clothingItems) => res.status(200).send(clothingItems))
-    .catch((err) => serverErrorHandler(req, res, err));
+    .catch((err) => {
+      if (err.name === "blah") {
+
+      } else {
+        next(err);
+      }
+      // serverErrorHandler(req, res, err)
+    });
 };
 
 module.exports.createClothingItem = (req, res) => {
