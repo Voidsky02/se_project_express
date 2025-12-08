@@ -1,17 +1,12 @@
 const { ClothingItem } = require("../models/clothingItems");
-const { serverErrorHandler, error404, error403 } = require("../utils/errors");
+// const { serverErrorHandler, error404, error403 } = require("../utils/errors");
+const { convertServerError } = require("../utils/custom-error-constructors");
 
-module.exports.getClothingItems = (req, res) => {
+// must include next in parameters in order to use it
+module.exports.getClothingItems = (req, res, next) => {
   ClothingItem.find({})
     .then((clothingItems) => res.status(200).send(clothingItems))
-    .catch((err) => {
-      if (err.name === "blah") {
-
-      } else {
-        next(err);
-      }
-      // serverErrorHandler(req, res, err)
-    });
+    .catch((err) => next(convertServerError(err))); // new error handling => pass to centralized error handling middleware
 };
 
 module.exports.createClothingItem = (req, res) => {
