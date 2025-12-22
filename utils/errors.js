@@ -44,7 +44,7 @@ const serverErrorHandler = (req, res, error) => {
 };
 
 // this error message never gets used because when serverErrorHandler, which gets used
-// on every .catch block, recieves an error with the name "DocumentNotFoundError",
+// on every .catch block, receives an error with the name "DocumentNotFoundError",
 // it will used the error404 objects message, which is "Requested resource could not be found"
 const orFailErrorHandler = () => {
   const error = new Error("Item ID not found");

@@ -1,6 +1,9 @@
+require('dotenv').config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const { errors } = require('celebrate');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { usersRouter } = require("./routes/users");
 const { clothingItemsRouter } = require("./routes/clothingItems");
 const { likesRouter } = require("./routes/likes");
@@ -18,6 +21,9 @@ mongoose
 app.use(cors());
 app.use(express.json());
 
+// request logger
+app.use(requestLogger);
+
 // don't use auth middleware for any user routes
 app.use("/", usersRouter);
 // use auth middleware for ever route except getClothingItems
@@ -26,6 +32,12 @@ app.use("/", likesRouter);
 app.use((req, res) =>
   res.status(error404.code).send({ message: error404.message })
 );
+
+// error LOGGER
+app.use(errorLogger);
+
+// celebrate and Joi error handler 
+app.use(errors());
 
 // Centralized Error Handling => 4 parameters is how express knows this is an error handling middleware
 app.use(errorHandler); // (They told me to put after all other app.use)

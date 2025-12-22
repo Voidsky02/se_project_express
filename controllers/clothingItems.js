@@ -1,5 +1,5 @@
 const { ClothingItem } = require("../models/clothingItems");
-// const { serverErrorHandler, error404, error403 } = require("../utils/errors");
+const { error404, error403 } = require("../utils/errors");
 const { convertServerError } = require("../utils/custom-error-constructors");
 
 // must include next in parameters in order to use it
@@ -9,15 +9,15 @@ module.exports.getClothingItems = (req, res, next) => {
     .catch((err) => next(convertServerError(err))); // new error handling => pass to centralized error handling middleware
 };
 
-module.exports.createClothingItem = (req, res) => {
+module.exports.createClothingItem = (req, res, next) => {
   const owner = req.user._id;
   const { name, weather, imageUrl } = req.body;
   ClothingItem.create({ name, weather, imageUrl, owner })
     .then((clothingItem) => res.status(200).send(clothingItem))
-    .catch((err) => serverErrorHandler(req, res, err));
+    .catch((err) => next(convertServerError(err)));
 };
 
-module.exports.deleteClothingItem = async (req, res) => {
+module.exports.deleteClothingItem = async (req, res, next) => {
   const { itemId } = req.params;
   const userId = req.user._id;
 
@@ -40,7 +40,7 @@ module.exports.deleteClothingItem = async (req, res) => {
     }
 
     return await Promise.reject(error403);
-  } catch (error) {
-    return serverErrorHandler(req, res, error);
+  } catch (err) {
+    return next(convertServerError(err));
   }
 };

@@ -2,20 +2,19 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../utils/config");
 const { User } = require("../models/user");
-const { serverErrorHandler, orFailErrorHandler } = require("../utils/errors");
+// const { serverErrorHandler, orFailErrorHandler } = require("../utils/errors");
+const { convertServerError, NotFoundError, BadRequestError } = require('../utils/custom-error-constructors');
 
-module.exports.getCurrentUser = (req, res) => {
+module.exports.getCurrentUser = (req, res, next) => {
   const userId = req.user._id;
   User.findById(userId)
-    .orFail(orFailErrorHandler)
+    .orFail(new NotFoundError('User not found'))
     .then((user) => res.status(200).send(user))
-    .catch((err) => {
-      serverErrorHandler(req, res, err);
-    });
+    .catch((err) => next(convertServerError(err)));
 };
 
 // update users Name and Avatar fields ONLY
-module.exports.updateProfile = (req, res) => {
+module.exports.updateProfile = (req, res, next) => {
   const { name, avatar } = req.body;
 
   User.findOneAndUpdate(
@@ -23,12 +22,12 @@ module.exports.updateProfile = (req, res) => {
     { $set: { name, avatar } },
     { new: true, runValidators: true }
   )
-    .orFail(orFailErrorHandler)
+    .orFail(new NotFoundError('User not found'))
     .then((user) => res.status(200).send(user))
-    .catch((err) => serverErrorHandler(req, res, err));
+    .catch((err) => next(convertServerError(err)));
 };
 
-module.exports.createUser = (req, res) => {
+module.exports.createUser = (req, res, next) => {
   console.log(`create user called with:`, req.body);
   const { name, avatar, email } = req.body;
   bcrypt.hash(req.body.password, 10).then((hash) => {
@@ -40,17 +39,14 @@ module.exports.createUser = (req, res) => {
         delete userObject.password;
         res.status(200).send(userObject);
       })
-      .catch((err) => {
-        console.log(`Error in create user: ${err}`);
-        return serverErrorHandler(req, res, err);
-      });
+      .catch((err) => next(convertServerError(err)));
   });
 };
 
-module.exports.login = (req, res) => {
+module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password) {
-    return serverErrorHandler(req, res, { name: "ValidationError" });
+    return next(new BadRequestError('Invalid email or password'));
   }
   return User.findUserByCredentials(email, password)
     .then((user) => {
@@ -60,5 +56,5 @@ module.exports.login = (req, res) => {
 
       res.send({ token });
     })
-    .catch((err) => serverErrorHandler(req, res, err));
+    .catch((err) => next(convertServerError(err)));
 };
