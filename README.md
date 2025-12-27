@@ -19,3 +19,18 @@ These technologies were used to set up routes, with custom controllers allowing 
 ### Testing
 
 Before committing your code, make sure you edit the file `sprint.txt` in the root folder. The file `sprint.txt` should contain the number of the sprint you're currently working on. For ex. 12
+
+### Domain Names
+
+- wtwrVoid.twilightparadox.com
+- www.wtwrVoid.twilightparadox.com
+- api.wtwrVoid.twilightparadox.com
+
+### Link to frontend code
+
+[Github:](https://github.com/Voidsky02/se_project_react)
+
+### Project Pitch Video
+ 
+ Check out [this video](https://drive.google.com/file/d/1FNnwPkGnnx8iL36_jdPHjCfPY1qSr_h5/view?usp=drive_link), where I describe my 
+ project and some challenges I faced while building it.

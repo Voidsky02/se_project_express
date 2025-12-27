@@ -24,6 +24,13 @@ app.use(express.json());
 // request logger
 app.use(requestLogger);
 
+// server crash test 
+app.get('/crash-test', () => { //! REMOVE AFTER CODE PASSES REVIEW
+  setTimeout(() => {
+    throw new Error('Server will crash now');
+  }, 0);
+});
+
 // don't use auth middleware for any user routes
 app.use("/", usersRouter);
 // use auth middleware for ever route except getClothingItems
