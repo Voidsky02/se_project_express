@@ -10,7 +10,7 @@ const validateURL = (value, helpers) => {
 
 const validateId = celebrate({
     params: Joi.object().keys({
-        id: Joi.hexadecimal().length(24).required(),
+        id: Joi.string().hex().length(24).required(),
     }) 
 });
 
@@ -21,6 +21,8 @@ const validateClothingItemBody = celebrate({
             'string.empty': 'the "imageUrl" field must be filled in',
             'string.uri': 'The imageUrl field must be a valid url',
         }),
+        // validate "weather" as well
+        weather: Joi.string().valid('hot', 'warm', 'cold').required(),
     }),
 })
 

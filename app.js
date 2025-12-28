@@ -3,11 +3,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const { errors } = require('celebrate');
+const routes = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middleware/loggers');
-const { usersRouter } = require("./routes/users");
-const { clothingItemsRouter } = require("./routes/clothingItems");
-const { likesRouter } = require("./routes/likes");
-const { error404 } = require("./utils/errors");
 const { errorHandler } = require('./middleware/error-handler');
 
 const app = express();
@@ -31,14 +28,7 @@ app.get('/crash-test', () => { //! REMOVE AFTER CODE PASSES REVIEW
   }, 0);
 });
 
-// don't use auth middleware for any user routes
-app.use("/", usersRouter);
-// use auth middleware for ever route except getClothingItems
-app.use("/", clothingItemsRouter);
-app.use("/", likesRouter);
-app.use((req, res) =>
-  res.status(error404.code).send({ message: error404.message })
-);
+app.use("/", routes);
 
 // error LOGGER
 app.use(errorLogger);

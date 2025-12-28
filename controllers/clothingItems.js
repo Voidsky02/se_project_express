@@ -1,6 +1,6 @@
 const { ClothingItem } = require("../models/clothingItems");
 const { error404, error403 } = require("../utils/errors");
-const { convertServerError } = require("../utils/custom-error-constructors");
+const { convertServerError, NotFoundError } = require("../errors/custom-error-constructors");
 
 // must include next in parameters in order to use it
 module.exports.getClothingItems = (req, res, next) => {
@@ -43,4 +43,26 @@ module.exports.deleteClothingItem = async (req, res, next) => {
   } catch (err) {
     return next(convertServerError(err));
   }
+};
+
+module.exports.likeItem = (req, res, next) => {
+  ClothingItem.findByIdAndUpdate(
+    req.params.itemId,
+    { $addToSet: { likes: req.user._id } },
+    { new: true }
+  )
+    .orFail(new NotFoundError('Clothing item not found'))
+    .then((likes) => res.status(200).send(likes))
+    .catch((err) => next(convertServerError(err)));
+};
+
+module.exports.dislikeItem = (req, res, next) => {
+  ClothingItem.findByIdAndUpdate(
+    req.params.itemId,
+    { $pull: { likes: req.user._id } },
+    { new: true }
+  )
+    .orFail(new NotFoundError('Clothing item not found'))
+    .then((likes) => res.status(200).send(likes))
+    .catch((err) => next(convertServerError(err)));
 };
