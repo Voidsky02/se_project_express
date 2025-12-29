@@ -6,10 +6,11 @@ const {
   updateProfile,
 } = require("../controllers/users");
 const auth = require("../middleware/auth");
+const { validateId, validateUserInfoBody } = require('../middleware/validation');
 
 // NEW ROUTES:
-usersRouter.post("/signin", login);
-usersRouter.post("/signup", createUser);
+usersRouter.post("/signin", validateId, login);
+usersRouter.post("/signup", validateUserInfoBody, createUser);
 usersRouter.get("/users/me", auth, getCurrentUser);
 usersRouter.patch("/users/me", auth, updateProfile);
 
