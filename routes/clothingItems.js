@@ -9,14 +9,14 @@ const {
 } = require("../controllers/clothingItems");
 const { validateClothingItemBody, validateId } = require("../middleware/validation");
 
-clothingItemsRouter.get("/items", validateId, getClothingItems);
+clothingItemsRouter.get("/items", getClothingItems);
 
 clothingItemsRouter.post("/items", auth, validateClothingItemBody, createClothingItem);
 
 clothingItemsRouter.delete("/items/:itemId", auth, validateId, deleteClothingItem);
 
 // Likes
-clothingItemsRouter.patch("/items/:itemId/likes", auth, validateId, likeItem);
+clothingItemsRouter.put("/items/:itemId/likes", auth, validateId, likeItem);
 
 clothingItemsRouter.delete("/items/:itemId/likes", auth, validateId, dislikeItem);
 
