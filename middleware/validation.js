@@ -12,7 +12,7 @@ const validateURL = (value, helpers) => {
 //! 'itemId' so i guess the property in here must match the route parameter
 //! specifically.
 const validateId = celebrate({
-    params: Joi.object().keys({
+    params: Joi.object().keys({ //! ITS NOT CALLED PARAMS FOR NOTHING, the keyword needs to be the same keywords in the route params, because thats what its validating
         itemId: Joi.string().hex().length(24).required(),
     }) 
 });
