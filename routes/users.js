@@ -5,8 +5,8 @@ const {
   getCurrentUser,
   updateProfile,
 } = require("../controllers/users");
-const auth = require("../middleware/auth");
-const { validateUserInfoBody, validateAuthentication } = require('../middleware/validation');
+const auth = require("../middlewares/auth");
+const { validateUserInfoBody, validateAuthentication } = require('../middlewares/validation');
 
 // NEW ROUTES:
 usersRouter.post("/signin", validateAuthentication, login);

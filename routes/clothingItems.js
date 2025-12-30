@@ -1,5 +1,5 @@
 const clothingItemsRouter = require("express").Router();
-const auth = require("../middleware/auth");
+const auth = require("../middlewares/auth");
 const {
   getClothingItems,
   createClothingItem,
@@ -7,7 +7,7 @@ const {
   likeItem,
   dislikeItem,
 } = require("../controllers/clothingItems");
-const { validateClothingItemBody, validateId } = require("../middleware/validation");
+const { validateClothingItemBody, validateId } = require("../middlewares/validation");
 
 clothingItemsRouter.get("/items", getClothingItems);
 
