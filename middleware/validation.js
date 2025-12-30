@@ -8,7 +8,6 @@ const validateURL = (value, helpers) => {
     return helpers.error('string.uri');
 }
 
-//! Apply this to appropriate routes
 const validateId = celebrate({
     params: Joi.object().keys({
         id: Joi.string().hex().length(24).required(),
@@ -27,7 +26,6 @@ const validateClothingItemBody = celebrate({
     }),
 })
 
-//! Apply to appropriate routes
 const validateUserInfoBody = celebrate({
     body: Joi.object().keys({
         name: Joi.string().required().min(2).max(30),
